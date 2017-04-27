@@ -12,7 +12,7 @@ class Client
 
     public function makeRequest($controller, $action, $parameters)
     {
-        $url = sprintf('https://%s/api/v1/%s/%s', $this->host, $controller, $action);
+        $url = sprintf('%s/api/v1/%s/%s', $this->host, $controller, $action);
 
         // Headers
         $headers = [
