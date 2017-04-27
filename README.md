@@ -32,7 +32,7 @@ $message->bcc('secret@awesomeapp.com');
 // on your mail server.
 $message->from('test@test.postal.io');
 
-// Set the subejct
+// Set the subject
 $message->subject('Hi there!');
 
 // Set the content for the e-mail
