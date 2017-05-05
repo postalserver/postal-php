@@ -13,7 +13,7 @@ class SendMessage
         $this->attributes['to'] = [];
         $this->attributes['cc'] = [];
         $this->attributes['bcc'] = [];
-        $this->attributes['headers'] = [];
+        $this->attributes['headers'] = null;
         $this->attributes['attachments'] = [];
     }
 
