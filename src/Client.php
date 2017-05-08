@@ -32,7 +32,11 @@ class Client
             if ($json->status == 'success') {
                 return $json->data;
             } else {
-                throw new Error(sprintf('[%s] %s', $json->data->code, $json->data->message));
+                if (isset($json->data->code)) {
+                    throw new Error(sprintf('[%s] %s', $json->data->code, $json->data->message));
+                } else {
+                    throw new Error($json->data->message);
+                }
             }
         }
 
