@@ -41,6 +41,7 @@ $message->htmlBody('<p>Hello world!</p>');
 
 // Add any custom headers
 $message->header('X-PHP-Test', 'value');
+$message->header('Hash', '');
 
 // Attach any files
 $message->attach('textmessage.txt', 'text/plain', 'Hello world!');
