@@ -17,23 +17,35 @@ class SendMessage
         $this->attributes['attachments'] = [];
     }
 
-    public function to($address)
+    public function to($address, $name = null)
     {
+        if ($name !== null) {
+            $address = '"' . $name . '" <' . $address . '>';
+        }
         $this->attributes['to'][] = $address;
     }
 
-    public function cc($address)
+    public function cc($address, $name = null)
     {
+        if ($name !== null) {
+            $address = '"' . $name . '" <' . $address . '>';
+        }
         $this->attributes['cc'][] = $address;
     }
 
-    public function bcc($address)
+    public function bcc($address, $name = null)
     {
+        if ($name !== null) {
+            $address = '"' . $name . '" <' . $address . '>';
+        }
         $this->attributes['bcc'][] = $address;
     }
 
-    public function from($address)
+    public function from($address, $name = null)
     {
+        if ($name !== null) {
+            $address = '"' . $name . '" <' . $address . '>';
+        }
         $this->attributes['from'] = $address;
     }
 
@@ -52,8 +64,11 @@ class SendMessage
         $this->attributes['tag'] = $tag;
     }
 
-    public function replyTo($replyTo)
+    public function replyTo($replyTo, $name = null)
     {
+        if ($name !== null) {
+            $replyTo = '"' . $name . '" <' . $replyTo . '>';
+        }
         $this->attributes['reply_to'] = $replyTo;
     }
 
