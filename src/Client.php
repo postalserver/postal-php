@@ -1,45 +1,103 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Postal;
+
+use GuzzleHttp\Client as HttpClient;
+use Psr\Http\Message\ResponseInterface;
 
 class Client
 {
-    public function __construct($host, $serverKey)
-    {
-        $this->host = $host;
-        $this->serverKey = $serverKey;
+    public MessagesService $messages;
+
+    public SendService $send;
+
+    protected HttpClient $httpClient;
+
+    public function __construct(
+        string $host,
+        string $apiKey,
+        HttpClient $httpClient = null
+    ) {
+        $this->httpClient = $httpClient ?: HttpClientFactory::create($host, $apiKey);
+        $this->messages = new MessagesService($this);
+        $this->send = new SendService($this);
     }
 
-    public function makeRequest($controller, $action, $parameters)
+    public function getHttpClient(): HttpClient
     {
-        $url = sprintf('%s/api/v1/%s/%s', $this->host, $controller, $action);
+        return $this->httpClient;
+    }
 
-        // Headers
-        $headers = [
-            'x-server-api-key' => $this->serverKey,
-            'content-type' => 'application/json',
-        ];
+    /**
+     * @template T
+     * @param class-string<T> $class
+     * @return T
+     */
+    public function prepareResponse(ResponseInterface $response, $class)
+    {
+        return new $class($this->validateResponse($response));
+    }
 
-        // Make the body
-        $json = json_encode($parameters);
+    /**
+     * @template T
+     * @param class-string<T> $class
+     * @return array<T>
+     */
+    public function prepareListResponse(ResponseInterface $response, $class)
+    {
+        $list = $this->validateResponse($response);
 
-        // Make the request
-        $response = \Requests::post($url, $headers, $json);
+        // if (! array_is_list($list)) {
+        if (! $this->arrayIsList($list)) {
+            throw new APIException('Unexpected response received, expected a list');
+        }
 
-        if ($response->status_code === 200) {
-            $json = json_decode($response->body);
+        return array_map(fn ($item) => new $class($item), $list);
+    }
 
-            if ($json->status == 'success') {
-                return $json->data;
-            } else {
-                if (isset($json->data->code)) {
-                    throw new Error(sprintf('[%s] %s', $json->data->code, $json->data->message));
-                } else {
-                    throw new Error($json->data->message);
-                }
+    /**
+     * @return array<string|int, mixed>
+     */
+    protected function validateResponse(ResponseInterface $response): array
+    {
+        $json = json_decode((string) $response->getBody(), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE || ! is_array($json)) {
+            throw new APIException('Malformed response body received');
+        }
+
+        if (! isset($json['status']) || $json['status'] !== 'success') {
+            $message = $json['data']['message'] ?? 'An unexpected error was received';
+            $code = 0;
+            if (isset($json['data']['code'])) {
+                $message = $json['data']['code'] . ': ' . $message;
+                $code = $json['data']['code'];
+            }
+
+            throw new APIException($message, $code);
+        }
+
+        if (! isset($json['data'])) {
+            throw new APIException('Unexpected response received');
+        }
+
+        return $json['data'];
+    }
+
+    /**
+     * @param array<mixed> $array
+     */
+    private function arrayIsList(array $array): bool
+    {
+        $i = 0;
+        foreach ($array as $k => $v) {
+            if ($k !== $i++) {
+                return false;
             }
         }
 
-        throw new Error('Couldn’t send message to API');
+        return true;
     }
 }

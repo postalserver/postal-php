@@ -1,6 +1,6 @@
 # Postal for PHP
 
-This library helps you send e-mails through [Postal](https://github.com/atech/postal) in PHP 5.4 and above.
+This library helps you send e-mails through [Postal](https://github.com/postalserver/postal) in PHP 7.4 and above.
 
 ## Installation
 
@@ -20,7 +20,7 @@ need to login to our web interface and generate a new API credential.
 $client = new Postal\Client('https://postal.yourdomain.com', 'your-api-key');
 
 // Create a new message
-$message = new Postal\SendMessage($client);
+$message = new Postal\Send\Message();
 
 // Add some recipients
 $message->to('john@example.com');
@@ -46,12 +46,12 @@ $message->header('X-PHP-Test', 'value');
 $message->attach('textmessage.txt', 'text/plain', 'Hello world!');
 
 // Send the message and get the result
-$result = $message->send();
+$result = $client->send->message($message);
 
 // Loop through each of the recipients to get the message ID
 foreach ($result->recipients() as $email => $message) {
-    $email;            // The e-mail address of the recipient
-    $message->id();    // Returns the message ID
-    $message->token(); // Returns the message's token
+    $email;          // The e-mail address of the recipient
+    $message->id;    // The message ID
+    $message->token; // The message's token
 }
 ```
