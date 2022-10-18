@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Postal\Messages;
 
-use Postal\APIException;
+use Postal\ApiException;
 
 class Message
 {
@@ -58,10 +58,10 @@ class Message
     public function __construct(array $attributes)
     {
         if (! is_int($attributes['id'])) {
-            throw new APIException('Unexpected API response, expected an integer ID');
+            throw new ApiException('Unexpected API response, expected an integer ID');
         }
         if (! is_string($attributes['token'])) {
-            throw new APIException('Unexpected API response, expected a string token');
+            throw new ApiException('Unexpected API response, expected a string token');
         }
 
         $this->id = $attributes['id'];

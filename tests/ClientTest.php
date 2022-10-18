@@ -6,7 +6,7 @@ namespace Postal\Tests;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use Postal\APIException;
+use Postal\ApiException;
 use Postal\Client;
 
 class ClientTest extends TestCase
@@ -16,7 +16,7 @@ class ClientTest extends TestCase
         $client = new Client('', '');
         $response = new Response(200, [], 'this is not json');
 
-        $this->expectException(APIException::class);
+        $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Malformed response body received');
 
         $client->prepareResponse($response, new class() {
@@ -28,7 +28,7 @@ class ClientTest extends TestCase
         $client = new Client('', '');
         $response = new Response(200, [], '"test"');
 
-        $this->expectException(APIException::class);
+        $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Malformed response body received');
 
         $client->prepareResponse($response, new class() {
@@ -46,7 +46,7 @@ class ClientTest extends TestCase
             ],
         ]));
 
-        $this->expectException(APIException::class);
+        $this->expectException(ApiException::class);
         $this->expectExceptionMessage('5: my-test-error');
         $this->expectExceptionCode(5);
 
@@ -61,7 +61,7 @@ class ClientTest extends TestCase
             'status' => 'success',
         ]));
 
-        $this->expectException(APIException::class);
+        $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Unexpected response received');
 
         $client->prepareResponse($response, new class() {
@@ -141,7 +141,7 @@ class ClientTest extends TestCase
             ],
         ]));
 
-        $this->expectException(APIException::class);
+        $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Unexpected response received, expected a list');
 
         $client->prepareListResponse($response, new class() {

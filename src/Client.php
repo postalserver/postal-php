@@ -51,7 +51,7 @@ class Client
 
         // if (! array_is_list($list)) {
         if (! $this->arrayIsList($list)) {
-            throw new APIException('Unexpected response received, expected a list');
+            throw new ApiException('Unexpected response received, expected a list');
         }
 
         return array_map(fn ($item) => new $class($item), $list);
@@ -65,7 +65,7 @@ class Client
         $json = json_decode((string) $response->getBody(), true);
 
         if (json_last_error() !== JSON_ERROR_NONE || ! is_array($json)) {
-            throw new APIException('Malformed response body received');
+            throw new ApiException('Malformed response body received');
         }
 
         if (! isset($json['status']) || $json['status'] !== 'success') {
@@ -76,11 +76,11 @@ class Client
                 $code = $json['data']['code'];
             }
 
-            throw new APIException($message, $code);
+            throw new ApiException($message, $code);
         }
 
         if (! isset($json['data'])) {
-            throw new APIException('Unexpected response received');
+            throw new ApiException('Unexpected response received');
         }
 
         return $json['data'];
