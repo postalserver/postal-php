@@ -11,8 +11,11 @@ RUN curl -sS https://getcomposer.org/installer | php \
 
 RUN adduser -S php
 
-USER php
 WORKDIR /package
+
+RUN chown php /package
+
+USER php
 
 COPY composer.json ./
 
