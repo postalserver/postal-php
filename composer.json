@@ -3,17 +3,21 @@
     "description": "Postal for PHP library.",
     "keywords": ["postal", "mail"],
     "license": "MIT",
-    "homepage":"https://github.com/atech/postal",
+    "homepage":"https://github.com/iamgold/postal-php",
     "authors": [
         {
             "name": "Adam Cooke",
             "email": "me@adamcooke.io"
+        },
+        {
+            "name": "Eric Huang",
+            "email": "eric.huang@atelli.ai"
         }
     ],
     "type": "library",
     "require": {
-        "php": ">=5.4",
-        "rmccue/requests": "^1.0"
+        "php": ">=7.0",
+        "rmccue/requests": "^2.0"
     },
     "autoload": {
         "psr-4": {

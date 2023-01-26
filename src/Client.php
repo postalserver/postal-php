@@ -2,6 +2,8 @@
 
 namespace Postal;
 
+use WpOrg\Requests\Requests;
+
 class Client
 {
     public function __construct($host, $serverKey)
@@ -24,7 +26,7 @@ class Client
         $json = json_encode($parameters);
 
         // Make the request
-        $response = \Requests::post($url, $headers, $json);
+        $response = Requests::post($url, $headers, $json);
 
         if ($response->status_code === 200) {
             $json = json_decode($response->body);

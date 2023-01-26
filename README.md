@@ -1,6 +1,6 @@
 # Postal for PHP
 
-This library helps you send e-mails through [Postal](https://github.com/atech/postal) in PHP 5.4 and above.
+This library is forked by postalserver/postal-php, it helps you send e-mails through [Postal](https://github.com/atech/postal) in PHP 7.0 and above.
 
 ## Installation
 
