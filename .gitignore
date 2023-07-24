@@ -2,3 +2,5 @@ vendor/
 .DS_Store
 test.php
 composer.lock
+*.cache
+coverage
