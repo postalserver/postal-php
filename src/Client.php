@@ -73,10 +73,9 @@ class Client
             $code = 0;
             if (isset($json['data']['code'])) {
                 $message = $json['data']['code'] . ': ' . $message;
-                $code = $json['data']['code'];
             }
 
-            throw new ApiException($message, $code);
+            throw new ApiException($message);
         }
 
         if (! isset($json['data'])) {

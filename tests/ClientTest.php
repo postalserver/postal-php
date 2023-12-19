@@ -41,14 +41,13 @@ class ClientTest extends TestCase
         $response = new Response(200, [], json_encode([
             'status' => 'error',
             'data' => [
-                'code' => 5,
+                'code' => 'TestExceptionCode',
                 'message' => 'my-test-error',
             ],
         ]));
 
         $this->expectException(ApiException::class);
-        $this->expectExceptionMessage('5: my-test-error');
-        $this->expectExceptionCode(5);
+        $this->expectExceptionMessage('TestExceptionCode: my-test-error');
 
         $client->prepareResponse($response, new class() {
         });
