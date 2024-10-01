@@ -15,7 +15,6 @@ class RawMessage
 
     public ?string $data = null;
 
-
     public function mailFrom(string $address): self
     {
         $this->mail_from = $address;
