@@ -7,6 +7,7 @@ namespace Postal\Tests;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Postal\Client;
@@ -37,6 +38,9 @@ class SendServiceTest extends TestCase
         ]);
         $handlerStack = HandlerStack::create($mock);
 
+        $requests = [];
+        $handlerStack->push(Middleware::history($requests));
+
         $guzzle = new GuzzleHttpClient([
             'handler' => $handlerStack,
         ]);
@@ -52,6 +56,11 @@ class SendServiceTest extends TestCase
         $this->assertSame('A', $result->messages[0]->token);
         $this->assertSame(2, $result->messages[1]->id);
         $this->assertSame('B', $result->messages[1]->token);
+
+        $this->assertCount(1, $requests);
+        $uri = (string) $requests[0]['request']->getUri();
+
+        $this->assertSame('send/message', $uri);
     }
 
     public function testRaw(): void
@@ -76,6 +85,9 @@ class SendServiceTest extends TestCase
         ]);
         $handlerStack = HandlerStack::create($mock);
 
+        $requests = [];
+        $handlerStack->push(Middleware::history($requests));
+
         $guzzle = new GuzzleHttpClient([
             'handler' => $handlerStack,
         ]);
@@ -91,5 +103,10 @@ class SendServiceTest extends TestCase
         $this->assertSame('A', $result->messages[0]->token);
         $this->assertSame(2, $result->messages[1]->id);
         $this->assertSame('B', $result->messages[1]->token);
+
+        $this->assertCount(1, $requests);
+        $uri = (string) $requests[0]['request']->getUri();
+
+        $this->assertSame('send/raw', $uri);
     }
 }
