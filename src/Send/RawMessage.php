@@ -7,36 +7,32 @@ namespace Postal\Send;
 class RawMessage
 {
     /**
-     * @var array{rcpt_to: array<string>, mail_from: string, data: string}
+     * @var array<string>
      */
-    public array $attributes;
+    public array $rcpt_to = [];
 
-    public function __construct()
-    {
-        $this->attributes = [
-            'rcpt_to' => [],
-            'mail_from' => '',
-            'data' => '',
-        ];
-    }
+    public ?string $mail_from = null;
+
+    public ?string $data = null;
+
 
     public function mailFrom(string $address): self
     {
-        $this->attributes['mail_from'] = $address;
+        $this->mail_from = $address;
 
         return $this;
     }
 
     public function rcptTo(string $address): self
     {
-        $this->attributes['rcpt_to'][] = $address;
+        $this->rcpt_to[] = $address;
 
         return $this;
     }
 
     public function data(string $data): self
     {
-        $this->attributes['data'] = base64_encode($data);
+        $this->data = base64_encode($data);
 
         return $this;
     }

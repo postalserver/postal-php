@@ -30,7 +30,7 @@ class SendService
     public function raw(RawMessage $message): Result
     {
         return $this->client->prepareResponse(
-            $this->client->getHttpClient()->post('send/message', [
+            $this->client->getHttpClient()->post('send/raw', [
                 'json' => $message,
             ]),
             Result::class,
