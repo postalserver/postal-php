@@ -48,7 +48,7 @@ class Message
     public function to(string $address, string $name = null): self
     {
         if ($name !== null) {
-            $address = "\"$name\" <$address>";
+            $address = "\"{$name}\" <{$address}>";
         }
 
         $this->to[] = $address;
@@ -59,7 +59,7 @@ class Message
     public function cc(string $address, string $name = null): self
     {
         if ($name !== null) {
-            $address = "\"$name\" <$address>";
+            $address = "\"{$name}\" <{$address}>";
         }
 
         $this->cc[] = $address;
@@ -70,7 +70,7 @@ class Message
     public function bcc(string $address, string $name = null): self
     {
         if ($name !== null) {
-            $address = "\"$name\" <$address>";
+            $address = "\"{$name}\" <{$address}>";
         }
         $this->bcc[] = $address;
 
@@ -80,7 +80,7 @@ class Message
     public function from(string $address, string $name = null): self
     {
         if ($name !== null) {
-            $address = "\"$name\" <$address>";
+            $address = "\"{$name}\" <{$address}>";
         }
 
         $this->from = $address;
