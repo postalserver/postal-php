@@ -17,6 +17,8 @@ need to login to our web interface and generate a new API credential.
 
 ```php
  
+    // Initialize Postal Client 
+    $client = new Postal\Client("POSTAL_DOMAIN","POSTAL_APL_KEY");
     // Create a new message
     $sender = new Postal\SendService($client);
 
