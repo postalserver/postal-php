@@ -45,29 +45,44 @@ class Message
      */
     public array $attachments = [];
 
-    public function to(string $address): self
+    public function to(string $address, string $name = null): self
     {
+        if ($name !== null) {
+            $address = "\"$name\" <$address>";
+        }
+
         $this->to[] = $address;
 
         return $this;
     }
 
-    public function cc(string $address): self
+    public function cc(string $address, string $name = null): self
     {
+        if ($name !== null) {
+            $address = "\"$name\" <$address>";
+        }
+
         $this->cc[] = $address;
 
         return $this;
     }
 
-    public function bcc(string $address): self
+    public function bcc(string $address, string $name = null): self
     {
+        if ($name !== null) {
+            $address = "\"$name\" <$address>";
+        }
         $this->bcc[] = $address;
 
         return $this;
     }
 
-    public function from(string $address): self
+    public function from(string $address, string $name = null): self
     {
+        if ($name !== null) {
+            $address = "\"$name\" <$address>";
+        }
+
         $this->from = $address;
 
         return $this;

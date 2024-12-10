@@ -12,46 +12,42 @@ $ composer require postal/postal
 
 ## Usage
 
-Sending an email is very simple. Just follow the example below. Before you can begin, you'll
-need to login to our web interface and generate a new API credential.
+Sending an email is very simple. Just follow the example below. Before you can begin, you'll need to login to our web interface and generate a new API credential.
 
 ```php
-// Create a new Postal client using the server key you generate in the web interface
-$client = new Postal\Client('https://postal.yourdomain.com', 'your-api-key');
+    $client = new Postal\Client("POSTAL_DOMAIN","POSTAL_API_KEY");
 
-// Create a new message
-$message = new Postal\Send\Message();
+    // Create a new message
+    $sender = new Postal\SendService($client);
 
-// Add some recipients
-$message->to('john@example.com');
-$message->to('mary@example.com');
-$message->cc('mike@example.com');
-$message->bcc('secret@awesomeapp.com');
+    // Add some recipients
+    $message = new Postal\Send\Message();
+    $message->to('name@example.com',"Recipient Name"); // Recipient name is optional and can be omitted
+    $message->to('name2@example.com', "Recipient2 Name"); // Recipient name is optional and can be omitted
 
-// Specify who the message should be from. This must be from a verified domain
-// on your mail server.
-$message->from('test@test.postal.io');
+    // Specify who the message should be from. This must be from a verified domain on your mail server.
+    $message->from('test-api@warp.cc',"Sender Name"); // Sender Name is optional and can be omitted
 
-// Set the subject
-$message->subject('Hi there!');
+    // Set the subject
+    $message->subject('Hi Test!');
 
-// Set the content for the e-mail
-$message->plainBody('Hello world!');
-$message->htmlBody('<p>Hello world!</p>');
+    // Set the content for the e-mail
+    $message->plainBody('Hello world!');
+    $message->htmlBody('<p>Hello world!</p>');
 
-// Add any custom headers
-$message->header('X-PHP-Test', 'value');
+    // Add any custom headers
+    $message->header('X-PHP-Test', 'value');
 
-// Attach any files
-$message->attach('textmessage.txt', 'text/plain', 'Hello world!');
+    // Attach any files
+    $message->attach('textmessage.txt', 'text/plain', 'Hello world!');
 
-// Send the message and get the result
-$result = $client->send->message($message);
+    // Send the message and get the result
+    $result = $sender->message($message);
 
-// Loop through each of the recipients to get the message ID
-foreach ($result->recipients() as $email => $message) {
-    $email;          // The e-mail address of the recipient
-    $message->id;    // The message ID
-    $message->token; // The message's token
-}
+    foreach ($result->recipients() as $email => $message) {
+        echo $email;  // The e-mail address of the recipient
+        echo $message->id;// The message ID
+        echo $message->token; // The message's token
+    }
+
 ```
