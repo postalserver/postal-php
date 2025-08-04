@@ -18,7 +18,7 @@ class Client
     public function __construct(
         string $host,
         string $apiKey,
-        HttpClient $httpClient = null
+        ?HttpClient $httpClient = null
     ) {
         $this->httpClient = $httpClient ?: HttpClientFactory::create($host, $apiKey);
         $this->messages = new MessagesService($this);
