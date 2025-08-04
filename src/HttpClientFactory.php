@@ -9,7 +9,7 @@ use GuzzleHttp\HandlerStack;
 
 class HttpClientFactory
 {
-    public static function create(string $host, string $apiKey, callable $handler = null): Client
+    public static function create(string $host, string $apiKey, ?callable $handler = null): Client
     {
         if ($handler === null) {
             $handler = HandlerStack::create();

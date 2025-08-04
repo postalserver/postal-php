@@ -25,8 +25,8 @@ class RetryMiddlewareFactory
         return function (
             $retries,
             Request $request,
-            Response $response = null,
-            Throwable $exception = null
+            ?Response $response = null,
+            ?Throwable $exception = null
         ) {
             if ($retries > self::$maxRetries) {
                 return false;
@@ -48,18 +48,18 @@ class RetryMiddlewareFactory
     {
         return function (
             $retries,
-            Response $response = null
+            ?Response $response = null
         ) {
             return self::$defaultRetryDelay;
         };
     }
 
-    private static function isConnectionError(\Throwable $exception = null): bool
+    private static function isConnectionError(?\Throwable $exception = null): bool
     {
         return $exception instanceof \GuzzleHttp\Exception\ConnectException;
     }
 
-    private static function isInternalServerError(\Throwable $exception = null): bool
+    private static function isInternalServerError(?\Throwable $exception = null): bool
     {
         return $exception instanceof \GuzzleHttp\Exception\ServerException;
     }
